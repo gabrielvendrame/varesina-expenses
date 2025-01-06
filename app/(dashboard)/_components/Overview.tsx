@@ -6,6 +6,8 @@ import { differenceInDays, startOfMonth } from 'date-fns';
 import { DateRangePicker } from '@/components/ui/date-range-picker';
 import { MAX_DATE_RANGE_DAYS } from '@/lib/constants';
 import { toast } from 'sonner';
+import StatsCards from '@/app/(dashboard)/_components/StatsCards';
+import CategoryStats from '@/app/(dashboard)/_components/CategoryStats';
 
 function Overview({userSettings}: { userSettings: UserSettings }) {
     const [dateRange, setDateRange] = useState<{ from: Date, to: Date }>({
@@ -32,6 +34,22 @@ function Overview({userSettings}: { userSettings: UserSettings }) {
                     ></DateRangePicker>
                 </div>
             </div>
+            <div className="container flex w-full flex-col gap-2">
+
+                <StatsCards
+                    userSettings={userSettings}
+                    from={dateRange.from}
+                    to={dateRange.to}
+                ></StatsCards>
+
+                <CategoryStats
+                    userSettings={userSettings}
+                    from={dateRange.from}
+                    to={dateRange.to}
+                />
+
+            </div>
+
         </>
     )
 }

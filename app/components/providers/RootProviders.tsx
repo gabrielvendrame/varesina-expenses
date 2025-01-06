@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 
 function RootProviders({children}: { children: ReactNode }) {
-    const [queryClient] = useState(() => new QueryClient({}))
+    const [queryClient] = useState(() => new QueryClient({defaultOptions: {queries: {refetchOnWindowFocus: false}}}))
     return (
         <QueryClientProvider client={queryClient}>
             <ThemeProvider attribute="class" defaultTheme="dark" enableSystem
