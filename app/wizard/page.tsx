@@ -5,8 +5,8 @@ import { Separator } from '@/components/ui/separator';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { CurrencyComboBox } from '@/app/components/CurrencyComboBox';
 import Logo from '@/components/Logo';
+import { CurrencyComboBox } from '@/components/CurrencyComboBox';
 
 async function Page() {
     const user = await currentUser()
