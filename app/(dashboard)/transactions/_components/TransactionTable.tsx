@@ -9,6 +9,15 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import SkeletonWrapper from '@/components/SkeletonWrapper';
 import { DataTableColumnHeader } from '@/components/datatable/ColumnHeader';
 import { cn } from '@/lib/utils';
+import {
+    DropdownMenu,
+    DropdownMenuContent, DropdownMenuItem,
+    DropdownMenuLabel, DropdownMenuSeparator,
+    DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { MoreHorizontal, TrashIcon } from 'lucide-react';
+import DeleteTransactionDialog from '@/app/(dashboard)/transactions/_components/DeleteTransactionDialog';
 
 interface Props {
     from: Date;
@@ -21,9 +30,39 @@ const emptyData: any[] = []
 
 export const columns: ColumnDef<TransactionHistoryRow>[] = [
     {
+        accessorKey: "amount",
+        header: ({column}) => (
+            <DataTableColumnHeader column={column} title="Importo"/>
+        ),
+        cell: ({row}) => (
+            <p className="text-md rounded-lg bg-gray-400/5 p-2 text-center font-medium">{row.original.formatterAmount}</p>
+        )
+    },
+    {
+        accessorKey: "type",
+        header: ({column}) => (
+            <DataTableColumnHeader column={column} title="Tipo"/>
+        ),
+        cell: ({row}) => (
+            <div className={cn(
+                "capitalize rounded-lg text-center p-2",
+                row.original.type === "income" ? "bg-emerald-400/10 text-emerald-500" : "bg-red-400/10 text-red-700"
+            )}>{row.original.type === "income" ? "Entrata" : "Spesa"}</div>
+        )
+    },
+    {
+        accessorKey: "description",
+        header: ({column}) => (
+            <DataTableColumnHeader column={column} title="Descrizione"/>
+        ),
+        cell: ({row}) => (
+            <div className="capitalize">{row.original.description}</div>
+        )
+    },
+    {
         accessorKey: "category",
         header: ({column}) => (
-            <DataTableColumnHeader column={column} title="Category"/>
+            <DataTableColumnHeader column={column} title="Categoria"/>
         ),
         cell: ({row}) => (
             <div className="flex gap-2 capitalize">
@@ -33,17 +72,8 @@ export const columns: ColumnDef<TransactionHistoryRow>[] = [
         )
     },
     {
-        accessorKey: "description",
-        header: ({column}) => (
-            <DataTableColumnHeader column={column} title="Description"/>
-        ),
-        cell: ({row}) => (
-            <div className="capitalize">{row.original.description}</div>
-        )
-    },
-    {
         accessorKey: "date",
-        header: "Date",
+        header: "Data",
         cell: ({row}) => {
             const date = new Date(row.original.date)
             const formattedDate = date.toLocaleDateString("default", {
@@ -54,27 +84,13 @@ export const columns: ColumnDef<TransactionHistoryRow>[] = [
             })
             return <div className="text-muted-foreground">{formattedDate}</div>
         }
-    },{
-        accessorKey: "type",
-        header: ({column}) => (
-            <DataTableColumnHeader column={column} title="Tipo"/>
-        ),
-        cell: ({row}) => (
-            <div className={cn(
-                "capitalize rounded-lg text-center p-2",
-                row.original.type === "income" ? "bg-emerald-400/10 text-emerald-500" : "bg-red-400/10 text-red-700"
-            )}>{row.original.type}</div>
-        )
     },
     {
-        accessorKey: "amount",
-        header: ({column}) => (
-            <DataTableColumnHeader column={column} title="Importo"/>
-        ),
-        cell: ({row}) => (
-            <p className="text-md rounded-lg bg-gray-400/5 p-2 text-center font-medium">{row.original.formatterAmount}</p>
-        )
+        id: "actions",
+        enableHiding: false,
+        cell: ({row}) => <RowActions transaction={row.original}/>
     },
+
 ]
 
 function TransactionTable({from, to}: Props) {
@@ -149,3 +165,35 @@ function TransactionTable({from, to}: Props) {
 }
 
 export default TransactionTable
+
+
+function RowActions({transaction}: { transaction: TransactionHistoryRow }) {
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+
+    return (
+        <>
+            <DeleteTransactionDialog open={showDeleteDialog} setOpen={setShowDeleteDialog}
+                                     transactionId={transaction.id}/>
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant={"ghost"} className="h-8 w-8 p-0">
+                        <span className="sr-only">Open menu</span>
+                        <MoreHorizontal className="h-4 w-4"/>
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>Azioni</DropdownMenuLabel>
+                    <DropdownMenuSeparator/>
+                    <DropdownMenuItem
+                        className="flex items-center gap-2 cursor-pointer"
+                        onSelect={() => {
+                            setShowDeleteDialog(prev => !prev)
+                        }}>
+                        <TrashIcon className="h-4 w-4 text-muted-foreground"></TrashIcon>
+                        Elimina
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </>
+    )
+}

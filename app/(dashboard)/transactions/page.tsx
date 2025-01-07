@@ -13,10 +13,10 @@ function TransactionsPage() {
     })
     return (
         <>
-            <div className="border-b bd-card">
-                <div className="container flex flex-wrap items-center justify-between gap-6 py-8">
+            <div className="border-b bd-card flex items-center justify-center flex-col">
+                <div className="container flex flex-wrap items-center justify-between gap-6 py-8 px-2">
                     <div>
-                        <p className="text-3xl font-bold">Storico transazioni</p>
+                        <p className="text-xl md:text-3xl font-bold">Storico</p>
                     </div>
                     <DateRangePicker
                         locale={"it-IT"}
@@ -32,10 +32,12 @@ function TransactionsPage() {
                         })}
                     ></DateRangePicker>
                 </div>
+                <div
+                    className="container border-b bd-card flex items-center content-center justify-center w-full bg-black md:mx-2">
+                    <TransactionTable from={dateRange.from} to={dateRange.to}></TransactionTable>
+                </div>
             </div>
-            <div className="container">
-                <TransactionTable from={dateRange.from} to={dateRange.to}></TransactionTable>
-            </div>
+
         </>
 
     )

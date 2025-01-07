@@ -37,7 +37,7 @@ function StatsCards({from, to, userSettings}: Props) {
                 <StatCard
                     formatter={formatter}
                     value={income}
-                    title={"Entrata"}
+                    title={"Entrate"}
                     icon={
                         <TrendingUp
                             className="h-12 w-12 items-center rounded-lg p-2 text-emerald-500 bg-emerald-400/10"></TrendingUp>

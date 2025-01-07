@@ -35,6 +35,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { CreateTransaction } from '@/app/(dashboard)/_actions/transactions';
 import { DateToUTCDate } from '@/lib/helpers';
+import { Textarea } from '@/components/ui/textarea';
 
 function CreateTransactionDialog({trigger, type}: Props) {
     const [open, setOpen] = useState(false)
@@ -86,7 +87,7 @@ function CreateTransactionDialog({trigger, type}: Props) {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>{trigger}</DialogTrigger>
-            <DialogContent>
+            <DialogContent >
                 <DialogHeader>
                     <DialogTitle>Crea nuova <span
                         className={cn("m-1", type === "income" ? "text-emerald-500" : "text-red-500")}>{type === "income" ? "entrata" : "spesa"}</span></DialogTitle>
@@ -95,12 +96,24 @@ function CreateTransactionDialog({trigger, type}: Props) {
                     <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
                         <FormField
                             control={form.control}
+                            name="amount"
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>Importo</FormLabel>
+                                    <FormControl>
+                                        <Input type={"number"} {...field}/>
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        ></FormField>
+                        <FormField
+                            control={form.control}
                             name="description"
                             render={({field}) => (
                                 <FormItem>
                                     <FormLabel>Descrizione</FormLabel>
                                     <FormControl>
-                                        <Input defaultValue={""} {...field}/>
+                                        <Textarea defaultValue={""} {...field}/>
                                     </FormControl>
                                     <FormDescription>
                                         Descrizione della transazione (opzionale)
@@ -108,21 +121,7 @@ function CreateTransactionDialog({trigger, type}: Props) {
                                 </FormItem>
                             )}
                         ></FormField>
-                        <FormField
-                            control={form.control}
-                            name="amount"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormLabel>Importo</FormLabel>
-                                    <FormControl>
-                                        <Input defaultValue={0} type={"number"} {...field}/>
-                                    </FormControl>
-                                    <FormDescription>
-                                        Importo
-                                    </FormDescription>
-                                </FormItem>
-                            )}
-                        ></FormField>
+
                         <div className="flex items-center justify-between gap-2">
                             <FormField
                                 control={form.control}
@@ -135,7 +134,7 @@ function CreateTransactionDialog({trigger, type}: Props) {
                                                             type={type}></CategoryPicker>
                                         </FormControl>
                                         <FormDescription>
-                                            Seleziona una categoria
+                                            <small>Scegli o crea una categoria</small>
                                         </FormDescription>
                                     </FormItem>
                                 )}
@@ -169,7 +168,7 @@ function CreateTransactionDialog({trigger, type}: Props) {
                                             </PopoverContent>
                                         </Popover>
                                         <FormDescription>
-                                            Seleziona una data per la transazione
+                                            <small>Scegli una data</small>
                                         </FormDescription>
                                         <FormMessage/>
                                     </FormItem>
@@ -183,7 +182,7 @@ function CreateTransactionDialog({trigger, type}: Props) {
                     <DialogClose asChild>
                         <Button className="me-2" variant={"secondary"} onClick={() => form.reset()}>Annulla</Button>
                     </DialogClose>
-                    <Button onClick={form.handleSubmit(onSubmit)} disabled={isPending}>
+                    <Button className="md:mb-0 md:mt-0 mb-4 mt-4" onClick={form.handleSubmit(onSubmit)} disabled={isPending}>
                         {!isPending && "Crea"}
                         {isPending && <Loader2 className="animate-spin"/>}
                     </Button>
