@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import Logo from '@/app/components/Logo';
+import Logo from '@/components/Logo';
 
 function Layout({children}: {children: ReactNode}) {
     return (

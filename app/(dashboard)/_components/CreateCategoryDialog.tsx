@@ -113,12 +113,13 @@ function CreateCategoryDialog({type, successCallback}: Props) {
                                     <FormLabel>Icona</FormLabel>
                                     <FormControl>
                                         <Popover>
-                                            <PopoverTrigger>
+                                            <PopoverTrigger asChild>
                                                 <Button variant={"outline"}
                                                         className="h-[100px] w-full">{form.watch("icon") ? (
                                                         <div className="flex flex-col items-center gap-2"><span
                                                             className="text-5xl" role="img">{field.value}</span><p
-                                                            className="text-xs text-muted-foreground">Cambia</p></div>) :
+                                                            className="text-xs text-muted-foreground">Cambia</p></div>
+                                                    ) :
                                                     (<div className="flex flex-col items-center gap-2"><CircleOff
                                                             className="h-[48px] w-[48px]"/><p
                                                             className="text-xs text-muted-foreground">Clicca per
@@ -127,7 +128,7 @@ function CreateCategoryDialog({type, successCallback}: Props) {
                                             </PopoverTrigger>
                                             <PopoverContent className="w-full">
                                                 <Picker theme={theme.resolvedTheme} data={data} locale={"it"}
-                                                        onEmojiSelect={(emoji: Skin) => {
+                                                        onEmojiSelect={(emoji: { native: string }) => {
                                                             field.onChange(emoji.native)
                                                         }}></Picker>
                                             </PopoverContent>

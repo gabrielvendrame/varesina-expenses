@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react'
-import Navbar from '@/app/components/Navbar';
+import Navbar from '@/components/Navbar';
 
 function Layout({children}: {children: ReactNode}) {
     return (
-        <div className="relative flex h-screen w-full flex-col">
+        <div className="relative flex h-dvh w-full flex-col" style={{textAlign: "-webkit-center"}}>
             <Navbar></Navbar>
             <div className="w-full">{children}</div>
         </div>

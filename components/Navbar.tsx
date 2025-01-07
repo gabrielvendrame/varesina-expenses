@@ -1,14 +1,14 @@
 "use client";
 import React, { useState } from 'react'
-import Logo, { LogoMobile } from '@/app/components/Logo';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { UserButton } from '@clerk/nextjs';
-import { ThemeSwitcherButton } from '@/app/components/ThemeSwitcherButton';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
+import Logo, { LogoMobile } from '@/components/Logo';
+import { ThemeSwitcherButton } from '@/components/ThemeSwitcherButton';
 
 function Navbar() {
     return (
@@ -50,7 +50,7 @@ function MobileNavbar() {
                     </SheetContent>
                 </Sheet>
                 <div className="flex h-[80px] min-h-[60px] items-center gap-x-4">
-                    <Logo/>
+                    <LogoMobile/>
                 </div>
                 <div className="flex items-center gap-2">
                     <ThemeSwitcherButton/>
@@ -63,7 +63,7 @@ function MobileNavbar() {
 
 function DesktopNavbar() {
     return (
-        <div className="hidden border-separate border-b bg-background md:block justify-items-center">
+        <div className="hidden border-separate border-b bg-background md:block">
             <nav className="container flex items-center justify-between px-8">
                 <div className="flex h-[80px] min-h-[60px] items-center gap-x-4">
                     <Logo/>
