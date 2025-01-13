@@ -3,12 +3,16 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { TransactionType } from '@/lib/types';
 import { useQuery } from '@tanstack/react-query';
 import { Category } from '@prisma/client';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import CreateCategoryDialog from '@/app/(dashboard)/_components/CreateCategoryDialog';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import {
+    ResponsivePopover,
+    ResponsivePopoverContent,
+    ResponsivePopoverTrigger
+} from '@/components/ui/responsive-popover';
 
 interface Props {
     type: TransactionType,
@@ -37,21 +41,21 @@ function CategoryPicker({type, onChange}: Props) {
     }, [setValue, setOpen])
 
     return (
-        <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
+        <ResponsivePopover open={open} onOpenChange={setOpen}>
+            <ResponsivePopoverTrigger asChild>
                 <Button
                     variant={"outline"}
                     role="combobox"
                     aria-expanded={open}
-                    className="w-[200px] justify-between"
+                    className="w-full max-w-[200px] justify-between"
                 >
                     {selectedCategory ? (
                         <CategoryRow category={selectedCategory}/>
-                    ) : ("Seleziona categoria")}
+                    ) : ("Categoria")}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
                 </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-[200px] p-0">
+            </ResponsivePopoverTrigger>
+            <ResponsivePopoverContent className="w-[200px] p-0">
                 <Command
                     onSubmit={(e => e.preventDefault())}>
                     <CommandInput placeholder="Cerca categoria..."></CommandInput>
@@ -82,8 +86,8 @@ function CategoryPicker({type, onChange}: Props) {
                         </CommandList>
                     </CommandGroup>
                 </Command>
-            </PopoverContent>
-        </Popover>
+            </ResponsivePopoverContent>
+        </ResponsivePopover>
     )
 }
 

@@ -25,6 +25,11 @@ import { toast } from 'sonner';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Category } from '@prisma/client';
 import { useTheme } from 'next-themes';
+import {
+    ResponsivePopover,
+    ResponsivePopoverContent,
+    ResponsivePopoverTrigger
+} from '@/components/ui/responsive-popover';
 
 interface Props {
     type: TransactionType,
@@ -112,8 +117,8 @@ function CreateCategoryDialog({type, successCallback}: Props) {
                                 <FormItem>
                                     <FormLabel>Icona</FormLabel>
                                     <FormControl>
-                                        <Popover>
-                                            <PopoverTrigger asChild>
+                                        <ResponsivePopover>
+                                            <ResponsivePopoverTrigger asChild>
                                                 <Button variant={"outline"}
                                                         className="h-[100px] w-full">{form.watch("icon") ? (
                                                         <div className="flex flex-col items-center gap-2"><span
@@ -125,14 +130,14 @@ function CreateCategoryDialog({type, successCallback}: Props) {
                                                             className="text-xs text-muted-foreground">Clicca per
                                                             selezionare</p></div>
                                                     )}</Button>
-                                            </PopoverTrigger>
-                                            <PopoverContent className="w-full">
+                                            </ResponsivePopoverTrigger>
+                                            <ResponsivePopoverContent className="w-full">
                                                 <Picker theme={theme.resolvedTheme} data={data} locale={"it"}
                                                         onEmojiSelect={(emoji: { native: string }) => {
                                                             field.onChange(emoji.native)
                                                         }}></Picker>
-                                            </PopoverContent>
-                                        </Popover>
+                                            </ResponsivePopoverContent>
+                                        </ResponsivePopover>
                                     </FormControl>
                                     <FormDescription>
                                         Questa è l&#39;icona che verrà usata per rappresentare la categoria
@@ -144,9 +149,9 @@ function CreateCategoryDialog({type, successCallback}: Props) {
                 </Form>
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button className="me-2" variant={"secondary"} onClick={() => form.reset()}>Annulla</Button>
+                        <Button className="me-0" variant={"secondary"} onClick={() => form.reset()}>Annulla</Button>
                     </DialogClose>
-                    <Button onClick={form.handleSubmit(onSubmit)} disabled={isPending}>
+                    <Button className="md:mb-0 md:mt-0 mb-4 mt-4" onClick={form.handleSubmit(onSubmit)} disabled={isPending}>
                         {!isPending && "Crea"}
                         {isPending && <Loader2 className="animate-spin"/>}
                     </Button>

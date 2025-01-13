@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ClerkProvider } from '@clerk/nextjs';
 import { ReactNode } from 'react';
@@ -13,6 +13,13 @@ export const metadata: Metadata = {
     title: "Varesina expenses",
     description: "Aiutati a capire come mai sei povero",
 };
+
+export const viewport: Viewport = {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+}
 
 export default function RootLayout({
                                        children,

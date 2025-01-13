@@ -36,6 +36,11 @@ import { toast } from 'sonner';
 import { CreateTransaction } from '@/app/(dashboard)/_actions/transactions';
 import { DateToUTCDate } from '@/lib/helpers';
 import { Textarea } from '@/components/ui/textarea';
+import {
+    ResponsivePopover,
+    ResponsivePopoverContent,
+    ResponsivePopoverTrigger
+} from '@/components/ui/responsive-popover';
 
 function CreateTransactionDialog({trigger, type}: Props) {
     const [open, setOpen] = useState(false)
@@ -145,11 +150,11 @@ function CreateTransactionDialog({trigger, type}: Props) {
                                 render={({field}) => (
                                     <FormItem className="flex flex-col">
                                         <FormLabel>Data transazione</FormLabel>
-                                        <Popover>
-                                            <PopoverTrigger asChild>
+                                        <ResponsivePopover>
+                                            <ResponsivePopoverTrigger asChild>
                                                 <FormControl>
                                                     <Button variant={"outline"} className={cn(
-                                                        "w-[200px] pl-3 text-left font-normal",
+                                                        "max-w-[200px] w-full pl-3 text-left font-normal",
                                                         !field.value && "text-muted-foreground"
                                                     )}>{field.value ? (
                                                         format(field.value, "PPP", {locale: it})
@@ -158,15 +163,15 @@ function CreateTransactionDialog({trigger, type}: Props) {
                                                     )}<CalendarIcon
                                                         className="ml-auto h-4 w-4 opacity-50"></CalendarIcon> </Button>
                                                 </FormControl>
-                                            </PopoverTrigger>
-                                            <PopoverContent className="w-auto p-0">
+                                            </ResponsivePopoverTrigger>
+                                            <ResponsivePopoverContent className="w-auto p-0">
                                                 <Calendar locale={it} mode="single" initialFocus selected={field.value}
                                                           onSelect={value => {
                                                               if (!value) return
                                                               field.onChange(value)
                                                           }}/>
-                                            </PopoverContent>
-                                        </Popover>
+                                            </ResponsivePopoverContent>
+                                        </ResponsivePopover>
                                         <FormDescription>
                                             <small>Scegli una data</small>
                                         </FormDescription>
@@ -180,7 +185,7 @@ function CreateTransactionDialog({trigger, type}: Props) {
                 </Form>
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button className="me-2" variant={"secondary"} onClick={() => form.reset()}>Annulla</Button>
+                        <Button className="md:me-2 me-0" variant={"secondary"} onClick={() => form.reset()}>Annulla</Button>
                     </DialogClose>
                     <Button className="md:mb-0 md:mt-0 mb-4 mt-4" onClick={form.handleSubmit(onSubmit)} disabled={isPending}>
                         {!isPending && "Crea"}

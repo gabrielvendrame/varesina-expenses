@@ -12,6 +12,11 @@ import { Switch } from './switch'
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
 import { cn } from '@/lib/utils'
 import {it} from 'date-fns/locale'
+import {
+    ResponsivePopover,
+    ResponsivePopoverContent,
+    ResponsivePopoverTrigger
+} from '@/components/ui/responsive-popover';
 
 export interface DateRangePickerProps {
     /** Click handler for applying the updates from DateRangePicker. */
@@ -321,7 +326,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
     }, [isOpen])
 
     return (
-        <Popover
+        <ResponsivePopover
             modal={true}
             open={isOpen}
             onOpenChange={(open: boolean) => {
@@ -331,7 +336,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
                 setIsOpen(open)
             }}
         >
-            <PopoverTrigger asChild>
+            <ResponsivePopoverTrigger asChild>
                 <Button size={'default'} variant="outline">
                     <div className="text-right">
                         <div className="py-1">
@@ -354,9 +359,9 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
                         {isOpen ? (<ChevronUpIcon width={24} />) : (<ChevronDownIcon width={24} />)}
                     </div>
                 </Button>
-            </PopoverTrigger>
-            <PopoverContent align={align} className="w-auto">
-                <div className="flex py-2">
+            </ResponsivePopoverTrigger>
+            <ResponsivePopoverContent align={align} className="w-auto">
+                <div className="justify-center flex py-2">
                     <div className="flex">
                         <div className="flex flex-col">
                             <div className="flex flex-col lg:flex-row gap-2 px-3 justify-end items-center lg:items-start pb-4 lg:pb-0">
@@ -545,8 +550,8 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
                         Aggiorna
                     </Button>
                 </div>
-            </PopoverContent>
-        </Popover>
+            </ResponsivePopoverContent>
+        </ResponsivePopover>
     )
 }
 
