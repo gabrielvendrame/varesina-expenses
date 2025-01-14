@@ -15,14 +15,13 @@ export async function CreateCategory(form: CreateCategorySchemaType) {
       redirect('/sign-in')
     }
 
-    const {name, icon, type} = parsedBody.data;
+    const {name, icon} = parsedBody.data;
 
     return prisma.category.create({
         data: {
           userId: user.id,
           name,
-          icon,
-          type
+          icon
         }
     });
 }
