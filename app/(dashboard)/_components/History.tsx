@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import HistoryPeriodSelector from '@/app/(dashboard)/_components/HistoryPeriodSelector';
 import { useQuery } from '@tanstack/react-query';
 import SkeletonWrapper from '@/components/SkeletonWrapper';
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { cn } from '@/lib/utils';
 import CountUp from 'react-countup';
 
@@ -18,7 +18,7 @@ interface Props {
 }
 
 function History({userSettings}: Props) {
-    const [timeframe, setTimeframe] = useState<Timeframe>("month")
+    const [timeframe, setTimeframe] = useState<Timeframe>("year")
     const [period, setPeriod] = useState<Period>({
         month: new Date().getMonth(),
         year: new Date().getFullYear()
@@ -38,9 +38,9 @@ function History({userSettings}: Props) {
     const dataAvailable = historyDataQuery?.data?.length > 0;
 
     return (
-        <div className="container">
-            <h2 className="mt-12 text-3xl font-bold">Storico</h2>
-            <Card className="col-span-12 mt-12 w-full">
+        <div className="container mt-8">
+            <h2 className="text-xl md:text-3xl font-bold">Storico</h2>
+            <Card className="col-span-12 md:mt-12 mt-3 w-full">
                 <CardHeader className="gap-2">
                     <CardTitle className="grid grid-flow-row justify-between gap-2 md:grid-flow-col">
                         <HistoryPeriodSelector
@@ -49,14 +49,16 @@ function History({userSettings}: Props) {
                             timeframe={timeframe}
                             setTimeframe={setTimeframe}
                         />
-                        <div className="flex h-10 gap-2">
+                        <div className="md:flex h-10 gap-2 hidden">
                             <Badge variant={'outline'}
                                    className="flex items-center gap-2 text-sm">
-                                <div className="h-4 w-4 rounded-full bg-emerald-500">Entrate</div>
+                                <div className="h-4 w-4 rounded-full bg-emerald-500"></div>
+                                Entrate
                             </Badge>
                             <Badge variant={'outline'}
                                    className="flex items-center gap-2 text-sm">
-                                <div className="h-4 w-4 rounded-full bg-red-500">Uscite</div>
+                                <div className="h-4 w-4 rounded-full bg-red-500"></div>
+                                Uscite
                             </Badge>
                         </div>
                     </CardTitle>
@@ -64,18 +66,27 @@ function History({userSettings}: Props) {
                 <CardContent>
                     <SkeletonWrapper isLoading={historyDataQuery.isFetching} fullWidth={false}>
                         {dataAvailable && <ResponsiveContainer width={"100%"} height={300}>
-                            <BarChart height={300} data={historyDataQuery.data} barCategoryGap={5}>
+                            <AreaChart className="ms-[-30px]" height={300} data={historyDataQuery.data} barCategoryGap={5}>
                                 <defs>
                                     <linearGradient id="incomeBar" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset={"0"} stopColor="#10b981" stopOpacity={"1"}></stop>
-                                        <stop offset={"1"} stopColor="#10b981" stopOpacity={"0"}></stop>
+                                        <stop offset="5%" stopColor="#10b981" stopOpacity={"0.8"}></stop>
+                                        <stop offset="95%" stopColor="#10b981" stopOpacity={"0"}></stop>
                                     </linearGradient>
                                     <linearGradient id="expenseBar" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset={"0"} stopColor="#ef4444" stopOpacity={"1"}></stop>
-                                        <stop offset={"1"} stopColor="#ef4444" stopOpacity={"0"}></stop>
+                                        <stop offset="5%" stopColor="#ef4444" stopOpacity={"0.8"}></stop>
+                                        <stop offset="95%" stopColor="#ef4444" stopOpacity={"0"}></stop>
                                     </linearGradient>
                                 </defs>
-                                <CartesianGrid strokeDasharray="5 5" strokeOpacity={"0.2"} vertical={false}/>
+                                {/*<CartesianGrid strokeDasharray="5 5" strokeOpacity={"0.2"} vertical={false}/>*/}
+
+                                {/*<Bar dataKey={"income"} label={"Entrate"} fill="url(#incomeBar)" radius={4}*/}
+                                {/*     className="cursor-pointer"/>*/}
+                                {/*<Bar dataKey={"expense"} label={"Uscite"} fill="url(#expenseBar)" radius={4}*/}
+                                {/*     className="cursor-pointer"/>*/}
+                                <Tooltip cursor={{opacity: 0.1}} content={props => (
+                                    <CustomTooltip formatter={formatter} {...props}/>
+                                )}/>
+                                <CartesianGrid strokeOpacity={"0.1"} strokeDasharray="3 3"/>
                                 <XAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false}
                                        padding={{left: 5, right: 5}} dataKey={data => {
                                     const {year, month, day} = data;
@@ -86,14 +97,13 @@ function History({userSettings}: Props) {
                                     return date.toLocaleDateString('default', {day: '2-digit'})
                                 }}/>
                                 <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false}/>
-                                <Bar dataKey={"income"} label={"Entrate"} fill="url(#incomeBar)" radius={4}
-                                     className="cursor-pointer"/>
-                                <Bar dataKey={"expense"} label={"Uscite"} fill="url(#expenseBar)" radius={4}
-                                     className="cursor-pointer"/>
-                                <Tooltip cursor={{opacity: 0.1}} content={props => (
-                                    <CustomTooltip formatter={formatter} {...props}/>
-                                )}/>
-                            </BarChart>
+                                <Area type="monotone" dataKey="income" stroke={"#10b981"} label={"Entrate"}
+                                      fillOpacity={1}
+                                      fill="url(#incomeBar)" className="cursor-pointer"/>
+                                <Area type="monotone" dataKey="expense" stroke="#ef4444" label={"Uscite"}
+                                      fillOpacity={1}
+                                      fill="url(#expenseBar)" className="cursor-pointer"/>
+                            </AreaChart>
                         </ResponsiveContainer>}
                         {!dataAvailable && (
                             <Card className="flex h-[300px] flex-col items-center justify-center bg-background">
@@ -134,9 +144,9 @@ function TooltipRow({label, value, bgColor, textColor, formatter}: {
     formatter: Intl.NumberFormat
 }) {
 
-    const formattingFn = useCallback((value:number)=>{
+    const formattingFn = useCallback((value: number) => {
         return formatter.format(value)
-    },[formatter],)
+    }, [formatter],)
 
     return <div className="flex items-center gap-2">
         <div className={cn("h-4 w-4 rounded-full", bgColor)}></div>

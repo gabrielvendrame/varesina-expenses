@@ -55,7 +55,6 @@ type HistoryData = {
 }
 
 async function getYearHistoryData(userId: string, year: number) {
-    console.log(12121);
     const results = await prisma.yearHistory.groupBy({
         by: ["month"],
         where: {
@@ -72,8 +71,6 @@ async function getYearHistoryData(userId: string, year: number) {
             }
         ]
     });
-
-    console.log(results);
 
     if (!results || results.length === 0) {
         return []

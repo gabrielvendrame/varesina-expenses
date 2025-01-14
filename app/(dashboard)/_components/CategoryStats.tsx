@@ -20,7 +20,7 @@ interface Props {
 function CategoryStats({userSettings, from, to}: Props) {
 
     const statsQuery = useQuery({
-        queryKey: ['overview', 'stats', 'categories', 'from', 'to'],
+        queryKey: ['overview', 'stats', 'categories', from, to],
         queryFn: () => fetch(`/api/stats/categories?from=${DateToUTCDate(from)}&to=${DateToUTCDate(to)}`).then(res => res.json())
     })
 
@@ -63,10 +63,10 @@ function CategoriesCard({
     const total = filteredData.reduce((acc, el) => acc + (el._sum?.amount || 0), 0)
 
     return (
-        <Card className="h-80 w-full col-span-6">
+        <Card className="md:h-80 w-full col-span-6">
             <CardHeader>
                 <CardTitle
-                    className="grid grid-flow-row justify-between gap-2 text-muted-foreground md:grid-flow-col">
+                    className="grid grid-flow-row justify-between gap-2 text-muted-foreground md:grid-flow-col md:text-lg text-md">
                     {type === "income" ? "Entrate" : "Spese"}
                 </CardTitle>
             </CardHeader>
@@ -77,7 +77,7 @@ function CategoriesCard({
                 )}
             </div>
             {filteredData.length > 0 && (
-                <ScrollArea className="h-60 w-full px-4">
+                <ScrollArea className="h-40 w-full px-4">
                     <div className="flex w-full flex-col gap-4 p-4">
                         {filteredData.map((el) => {
                             const amount = el._sum?.amount || 0
@@ -87,7 +87,7 @@ function CategoriesCard({
                                 <div key={el.category} className="flex flex-col gap-2">
                                     <div className="flex items-center justify-between">
                                         <span className="flex items-center text-gray-400">
-                                            {el.categoryIcon} {el.category}
+                                            {el.categoryIcon} <span className="text-sm md:text-lg ms-2">{el.category}</span>
                                             <span
                                                 className="ml-2 text-xs text-muted-foreground">({percentage.toFixed(0)}%)</span>
                                         </span>

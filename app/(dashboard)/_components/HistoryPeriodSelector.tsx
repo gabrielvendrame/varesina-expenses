@@ -63,7 +63,7 @@ function YearSelector({period, setPeriod, years}: {
                 setPeriod({month: period.month, year: parseInt(value)})
             }}
         >
-           <SelectTrigger className="w-[180px]">
+           <SelectTrigger className="w-[150px]">
                <SelectValue/>
            </SelectTrigger>
             <SelectContent>

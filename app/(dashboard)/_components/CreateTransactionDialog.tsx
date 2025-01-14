@@ -25,7 +25,6 @@ import { useForm } from 'react-hook-form';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import CategoryPicker from '@/app/(dashboard)/_components/CategoryPicker';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { format } from 'date-fns';
@@ -136,7 +135,7 @@ function CreateTransactionDialog({trigger, type}: Props) {
                                         <FormLabel>Categoria</FormLabel>
                                         <FormControl>
                                             <CategoryPicker onChange={handleCategoryChange}
-                                                            type={type}></CategoryPicker>
+                                                            ></CategoryPicker>
                                         </FormControl>
                                         <FormDescription>
                                             <small>Scegli o crea una categoria</small>

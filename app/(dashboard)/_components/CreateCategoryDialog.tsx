@@ -1,6 +1,5 @@
 "use client"
 import React, { useCallback, useState } from 'react'
-import { TransactionType } from '@/lib/types';
 import { CreateCategorySchema, CreateCategorySchemaType } from '@/schema/categories';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -14,10 +13,8 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { CircleOff, Loader2, PlusSquare } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import data, { Skin } from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 import { CreateCategory } from '@/app/(dashboard)/_actions/categories';
@@ -32,18 +29,14 @@ import {
 } from '@/components/ui/responsive-popover';
 
 interface Props {
-    type: TransactionType,
     successCallback: (category: Category) => void
 }
 
-function CreateCategoryDialog({type, successCallback}: Props) {
+function CreateCategoryDialog({successCallback}: Props) {
     const [open, setOpen] = useState(false)
     const theme = useTheme()
     const form = useForm<CreateCategorySchemaType>({
         resolver: zodResolver(CreateCategorySchema),
-        defaultValues: {
-            type
-        }
     })
 
     const queryClient = useQueryClient();
@@ -54,7 +47,6 @@ function CreateCategoryDialog({type, successCallback}: Props) {
             form.reset({
                 name: "",
                 icon: "",
-                type
             })
             toast.success("Categoria creata", {id: "create-category"})
 
@@ -87,8 +79,7 @@ function CreateCategoryDialog({type, successCallback}: Props) {
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Crea nuova categoria di <span
-                        className={cn("m-1", type === "income" ? "text-emerald-500" : "text-red-500")}>{type === "income" ? "entrata" : "spesa"}</span></DialogTitle>
+                    <DialogTitle>Crea nuova categoria</DialogTitle>
                     <DialogDescription>
                         Le categorie sono usate per organizzare le tue transazioni
                     </DialogDescription>
@@ -131,11 +122,13 @@ function CreateCategoryDialog({type, successCallback}: Props) {
                                                             selezionare</p></div>
                                                     )}</Button>
                                             </ResponsivePopoverTrigger>
-                                            <ResponsivePopoverContent className="w-full">
-                                                <Picker theme={theme.resolvedTheme} data={data} locale={"it"}
+                                            <ResponsivePopoverContent className="w-[20px]">
+                                                <div className="w-full">
+                                                <Picker className="w-[20px]" theme={theme.resolvedTheme} data={data} locale={"it"}
                                                         onEmojiSelect={(emoji: { native: string }) => {
                                                             field.onChange(emoji.native)
                                                         }}></Picker>
+                                                </div>
                                             </ResponsivePopoverContent>
                                         </ResponsivePopover>
                                     </FormControl>

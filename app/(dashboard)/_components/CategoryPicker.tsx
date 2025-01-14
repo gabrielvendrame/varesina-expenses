@@ -1,6 +1,5 @@
 "use client"
 import React, { useCallback, useEffect, useState } from 'react'
-import { TransactionType } from '@/lib/types';
 import { useQuery } from '@tanstack/react-query';
 import { Category } from '@prisma/client';
 import { Button } from '@/components/ui/button';
@@ -15,17 +14,16 @@ import {
 } from '@/components/ui/responsive-popover';
 
 interface Props {
-    type: TransactionType,
     onChange: (value: string) => void
 }
 
-function CategoryPicker({type, onChange}: Props) {
+function CategoryPicker({onChange}: Props) {
     const [open, setOpen] = useState(false)
     const [value, setValue] = useState<string | null>(null)
 
     const categoriesQuery = useQuery({
-        queryKey: ['categories', type],
-        queryFn: () => fetch(`/api/categories?type=${type}`).then(res => res.json())
+        queryKey: ['categories'],
+        queryFn: () => fetch(`/api/categories`).then(res => res.json())
     })
 
     useEffect(() => {
@@ -59,7 +57,7 @@ function CategoryPicker({type, onChange}: Props) {
                 <Command
                     onSubmit={(e => e.preventDefault())}>
                     <CommandInput placeholder="Cerca categoria..."></CommandInput>
-                    <CreateCategoryDialog type={type} successCallback={successCallback}></CreateCategoryDialog>
+                    <CreateCategoryDialog successCallback={successCallback}></CreateCategoryDialog>
                     <CommandEmpty>
                         <p>Nessuna categoria trovata</p>
                         <p className="text-xs text-muted-foreground">Aggiungi nuove categorie</p>

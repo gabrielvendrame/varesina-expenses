@@ -37,7 +37,6 @@ function Overview({userSettings}: { userSettings: UserSettings }) {
                 </div>
             </div>
             <div className="container flex w-full flex-col gap-2">
-
                 <StatsCards
                     userSettings={userSettings}
                     from={dateRange.from}
