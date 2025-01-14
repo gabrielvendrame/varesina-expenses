@@ -5,9 +5,17 @@ import * as PopoverPrimitive from "@radix-ui/react-popover";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { cn } from "@/lib/utils";
 import { X } from 'lucide-react';
-import { DialogContent, DialogHeader, DialogOverlay, DialogPortal, DialogTitle } from '@/components/ui/dialog';
+import {
+    DialogClose,
+    DialogContent, DialogFooter,
+    DialogHeader,
+    DialogOverlay,
+    DialogPortal,
+    DialogTitle
+} from '@/components/ui/dialog';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { createContext, useContext } from 'react';
+import { Button } from '@/components/ui/button';
 
 const ResponsivePopoverContext = createContext({
     isDesktop: false
@@ -58,8 +66,8 @@ ResponsivePopoverTrigger.displayName = PopoverPrimitive.Trigger.displayName;
 
 export const ResponsivePopoverContent = React.forwardRef<
     React.ElementRef<typeof PopoverPrimitive.Content>,
-    React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
->(({className, align = "center", sideOffset = 4, ...props}, ref) => {
+    React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content> & { hideOkButtonOnMobile?: boolean }
+>(({className, align = "center", hideOkButtonOnMobile = false, sideOffset = 4, ...props}, ref) => {
     const {isDesktop} = useContext(ResponsivePopoverContext);
 
     return isDesktop ? (
@@ -78,16 +86,16 @@ export const ResponsivePopoverContent = React.forwardRef<
     ) : (
         <DialogPortal>
             <DialogOverlay/>
-            <DialogContent>
+            <DialogContent onOpenAutoFocus={e => e.preventDefault()}>
                 <DialogHeader>
                     <DialogTitle></DialogTitle>
                 </DialogHeader>
                 {props.children}
-                <DialogPrimitive.Close
-                    className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-                    <X className="h-4 w-4"/>
-                    <span className="sr-only">Chiudi</span>
-                </DialogPrimitive.Close>
+                {!hideOkButtonOnMobile && <DialogFooter>
+                    <DialogClose asChild>
+                        <Button className="me-0" variant={"default"}>Ok</Button>
+                    </DialogClose>
+                </DialogFooter>}
             </DialogContent>
         </DialogPortal>
 

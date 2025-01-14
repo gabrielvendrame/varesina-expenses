@@ -360,7 +360,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
                     </div>
                 </Button>
             </ResponsivePopoverTrigger>
-            <ResponsivePopoverContent align={align} className="w-auto">
+            <ResponsivePopoverContent hideOkButtonOnMobile={true} align={align} className="w-auto">
                 <div className="justify-center flex py-2">
                     <div className="flex">
                         <div className="flex flex-col">

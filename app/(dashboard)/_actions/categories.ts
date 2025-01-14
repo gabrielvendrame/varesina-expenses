@@ -7,6 +7,7 @@ import { currentUser } from '@clerk/nextjs/server';
 
 export async function CreateCategory(form: CreateCategorySchemaType) {
     const parsedBody = CreateCategorySchema.safeParse(form)
+
     if (!parsedBody.success) {
         throw new Error("bad request")
     }
