@@ -124,7 +124,7 @@ function CreateCategoryDialog({successCallback}: Props) {
                                             </ResponsivePopoverTrigger>
                                             <ResponsivePopoverContent className="w-[20px]">
                                                 <div className="w-full">
-                                                <Picker className="w-[20px]" theme={theme.resolvedTheme} data={data} locale={"it"}
+                                                <Picker dynamicWidth={false} dynamicWidthclassName="w-[80px]" theme={theme.resolvedTheme} data={data} locale={"it"}
                                                         onEmojiSelect={(emoji: { native: string }) => {
                                                             field.onChange(emoji.native)
                                                         }}></Picker>
