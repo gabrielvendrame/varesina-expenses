@@ -30,13 +30,16 @@ function CategoryStats({userSettings, from, to}: Props) {
 
     return (
         <div className="flex w-full flex-wrap gap-2 md:flex-nowrap">
-            <SkeletonWrapper isLoading={statsQuery.isFetching}>
-                <CategoriesCard
-                    formatter={formatter}
-                    type={"income"}
-                    data={statsQuery.data || []}
-                />
-            </SkeletonWrapper>
+            <div className="md:flex w-full hidden">
+                <SkeletonWrapper isLoading={statsQuery.isFetching}>
+                    <CategoriesCard
+                        formatter={formatter}
+                        type={"income"}
+                        data={statsQuery.data || []}
+                    />
+                </SkeletonWrapper>
+            </div>
+
             <SkeletonWrapper isLoading={statsQuery.isFetching}>
                 <CategoriesCard
                     formatter={formatter}
@@ -67,7 +70,7 @@ function CategoriesCard({
             <CardHeader>
                 <CardTitle
                     className="grid grid-flow-row justify-between gap-2 text-muted-foreground md:grid-flow-col md:text-lg text-md">
-                    {type === "income" ? "Entrate" : "Spese"}
+                    {type === "income" ? "Cat. Entrata" : "Cat. Spesa"}
                 </CardTitle>
             </CardHeader>
             <div className="flex item-center justify-between gap-2">
@@ -87,7 +90,8 @@ function CategoriesCard({
                                 <div key={el.category} className="flex flex-col gap-2">
                                     <div className="flex items-center justify-between">
                                         <span className="flex items-center text-gray-400">
-                                            {el.categoryIcon} <span className="text-sm md:text-lg ms-2">{el.category}</span>
+                                            {el.categoryIcon} <span
+                                            className="text-sm md:text-lg ms-2">{el.category}</span>
                                             <span
                                                 className="ml-2 text-xs text-muted-foreground">({percentage.toFixed(0)}%)</span>
                                         </span>
@@ -100,7 +104,7 @@ function CategoriesCard({
                                     <Progress
                                         value={percentage}
                                         indicator={
-                                        type === "income" ? "bg-emerald-500" : "bg-red-500"
+                                            type === "income" ? "bg-emerald-500" : "bg-red-500"
                                         }
                                     ></Progress>
                                 </div>

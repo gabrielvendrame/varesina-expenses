@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma';
 import CreateTransactionForm from '@/app/(dashboard)/_components/CreateTransactionForm';
 import Overview from '@/app/(dashboard)/_components/Overview';
 import History from '@/app/(dashboard)/_components/History';
+import TransactionsCard from '@/app/(dashboard)/_components/TransactionsCard';
 
 
 async function Page() {
@@ -33,8 +34,6 @@ async function Page() {
                 </div>
             </div>
             <div className="px-2 flex items-center flex-col mt-4">
-                {/*<TestButton/>*/}
-
                 <Overview userSettings={userSettings}></Overview>
                 <History userSettings={userSettings}></History>
             </div>

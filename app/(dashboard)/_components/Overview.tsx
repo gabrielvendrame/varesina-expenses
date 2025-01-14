@@ -8,6 +8,7 @@ import { MAX_DATE_RANGE_DAYS } from '@/lib/constants';
 import { toast } from 'sonner';
 import StatsCards from '@/app/(dashboard)/_components/StatsCards';
 import CategoryStats from '@/app/(dashboard)/_components/CategoryStats';
+import TransactionsCard from '@/app/(dashboard)/_components/TransactionsCard';
 
 function Overview({userSettings}: { userSettings: UserSettings }) {
     const [dateRange, setDateRange] = useState<{ from: Date, to: Date }>({
@@ -42,7 +43,10 @@ function Overview({userSettings}: { userSettings: UserSettings }) {
                     from={dateRange.from}
                     to={dateRange.to}
                 ></StatsCards>
-
+                <TransactionsCard userSettings={userSettings}
+                                  from={dateRange.from}
+                                  to={dateRange.to}
+                ></TransactionsCard>
                 <CategoryStats
                     userSettings={userSettings}
                     from={dateRange.from}
