@@ -29,6 +29,7 @@ export async function CreateTransaction(form: CreateTransactionSchemaType){
         throw new Error('Category not found')
     }
 
+
     await prisma.$transaction([
         prisma.transaction.create({
             data: {

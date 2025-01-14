@@ -5,6 +5,8 @@ import { ReactNode } from 'react';
 import { Toaster } from '@/components/ui/sonner';
 import RootProviders from '@/components/providers/RootProviders';
 import { Inter } from 'next/font/google';
+import { dark } from '@clerk/themes'
+import { itIT } from '@clerk/localizations'
 
 const inter = Inter({subsets: ["latin"]});
 
@@ -28,7 +30,9 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="it" className="dark" style={{colorScheme: "dark"}}>
-        <ClerkProvider afterSignOutUrl="/sign-in">
+        <ClerkProvider localization={itIT} appearance={{
+            baseTheme: dark,
+        }} afterSignOutUrl="/sign-in">
             <body className={inter.className}>
             <Toaster richColors position="bottom-right"/>
             <RootProviders>{children}</RootProviders>

@@ -1,10 +1,8 @@
 import React from 'react'
 import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
-import { Button } from '@/components/ui/button';
 import { prisma } from '@/lib/prisma';
 import CreateTransactionForm from '@/app/(dashboard)/_components/CreateTransactionForm';
-import CreateTransactionDialog from '@/app/(dashboard)/_components/CreateTransactionDialog';
 import Overview from '@/app/(dashboard)/_components/Overview';
 import History from '@/app/(dashboard)/_components/History';
 
@@ -22,6 +20,8 @@ async function Page() {
     if (!userSettings) {
         redirect('/wizard')
     }
+
+
     return (
         <div className="h-full bg-background ">
             <div className="border-b bg-card flex justify-center">
@@ -33,6 +33,8 @@ async function Page() {
                 </div>
             </div>
             <div className="px-2 flex items-center flex-col mt-4">
+                {/*<TestButton/>*/}
+
                 <Overview userSettings={userSettings}></Overview>
                 <History userSettings={userSettings}></History>
             </div>
