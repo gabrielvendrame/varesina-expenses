@@ -23,7 +23,7 @@ interface Props {
 
 function TransactionsCard({from, to, userSettings}: Props) {
     const historyQuery = useQuery<GetTransactionHistoryResponseType>({
-        queryKey: ['transactions', 'history', from, to],
+        queryKey: ['overview', 'transactions', from, to],
         queryFn: () => fetch(`/api/transactions-history?from=${DateToUTCDate(from)}&to=${DateToUTCDate(to)}`).then(res => res.json())
     })
 

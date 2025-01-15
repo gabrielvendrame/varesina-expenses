@@ -47,7 +47,7 @@ function CreateTransactionForm() {
             form.reset({
                 type: undefined,
                 description: "",
-                amount: undefined,
+                amount: "" as unknown as number,
                 date: new Date(),
                 category: undefined
             })
