@@ -21,7 +21,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { it } from 'date-fns/locale';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, Loader2 } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
 
 function CreateTransactionForm() {
@@ -148,12 +148,14 @@ function CreateTransactionForm() {
                     render={({field}) => (
                         <FormItem>
                             <div className="flex items-center justify-around md:justify-start w-full gap-3 mt-5">
-                                <Button variant={"outline"} onClick={() => field.onChange("income")}
-                                        className="border-emerald-500 bg-emerald-950 text-white hover:bg-emerald-700 hover:text-white">Nuova
-                                    entrata</Button>
                                 <Button variant={"outline"} onClick={() => field.onChange("expense")}
-                                        className="border-rose-500 bg-rose-950 text-white hover:bg-rose-700 hover:text-white">Nuova
-                                    spesa</Button>
+                                        className="border-rose-500 bg-rose-950 text-white hover:bg-rose-700 hover:text-white" disabled={isPending}>
+                                    {!isPending && "Nuova spesa"}
+                                    {isPending && <Loader2 className="animate-spin"/>}</Button>
+                                <Button variant={"outline"} onClick={() => field.onChange("income")}
+                                        className="border-emerald-500 bg-emerald-950 text-white hover:bg-emerald-700 hover:text-white" disabled={isPending}>
+                                    {!isPending && "Nuova entrata"}
+                                    {isPending && <Loader2 className="animate-spin"/>}</Button>
                             </div>
                         </FormItem>
                     )}

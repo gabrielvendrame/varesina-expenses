@@ -14,10 +14,11 @@ import {
 } from '@/components/ui/responsive-popover';
 
 interface Props {
+    defaultValue?: string
     onChange: (value: string) => void
 }
 
-function CategoryPicker({onChange}: Props) {
+function CategoryPicker({defaultValue, onChange}: Props) {
     const [open, setOpen] = useState(false)
     const [value, setValue] = useState<string | null>(null)
 
@@ -30,6 +31,11 @@ function CategoryPicker({onChange}: Props) {
         if (!value) return
         onChange(value)
     }, [value, onChange])
+
+    useEffect(() => {
+        if (!defaultValue) return
+        setValue(defaultValue)
+    }, [defaultValue])
 
     const selectedCategory = categoriesQuery.data?.find((category: Category) => category.name === value)
 
