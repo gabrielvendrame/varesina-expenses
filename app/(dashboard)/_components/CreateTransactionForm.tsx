@@ -8,7 +8,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CreateTransaction } from '@/app/(dashboard)/_actions/transactions';
 import { toast } from 'sonner';
 import { DateToUTCDate } from '@/lib/helpers';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import CategoryPicker from '@/app/(dashboard)/_components/CategoryPicker';
@@ -29,6 +29,8 @@ function CreateTransactionForm() {
     const form = useForm<CreateTransactionSchemaType>({
         resolver: zodResolver(CreateTransactionSchema),
         defaultValues: {
+            amount: "" as unknown as number,
+            category: "",
             date: new Date()
         }
     })
@@ -49,7 +51,6 @@ function CreateTransactionForm() {
                 description: "",
                 amount: "" as unknown as number,
                 date: new Date(),
-                category: undefined
             })
 
 

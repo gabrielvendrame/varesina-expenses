@@ -38,7 +38,7 @@ export async function DeleteTransaction(id: string) {
             },
             data: {
                 ...(transaction.type === 'expense' && {expense: {decrement: transaction.amount}}),
-                ...(transaction.type === 'income' && {expense: {decrement: transaction.amount}}),
+                ...(transaction.type === 'income' && {income: {decrement: transaction.amount}}),
             }
         }),
         prisma.yearHistory.update({
@@ -51,7 +51,7 @@ export async function DeleteTransaction(id: string) {
             },
             data: {
                 ...(transaction.type === 'expense' && {expense: {decrement: transaction.amount}}),
-                ...(transaction.type === 'income' && {expense: {decrement: transaction.amount}}),
+                ...(transaction.type === 'income' && {income: {decrement: transaction.amount}}),
             }
         })
     ])

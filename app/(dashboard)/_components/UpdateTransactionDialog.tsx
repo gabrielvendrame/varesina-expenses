@@ -33,7 +33,7 @@ import CategoryPicker from '@/app/(dashboard)/_components/CategoryPicker';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { format } from 'date-fns';
-import { CalendarIcon, Loader2 } from 'lucide-react';
+import { CalendarIcon, Loader2, Trash } from 'lucide-react';
 import { it } from "date-fns/locale"
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -48,9 +48,11 @@ import {
 import { GetTransactionHistoryResponseType } from '@/app/api/transactions-history/route';
 import { TransactionType } from '@/lib/types';
 import { UpdateTransaction } from '@/app/(dashboard)/transactions/_actions/updateTransaction';
+import DeleteTransactionDialog from '@/app/(dashboard)/transactions/_components/DeleteTransactionDialog';
 
 function UpdateTransactionDialog({trigger, transaction}: Props) {
     const [open, setOpen] = useState(false)
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false)
 
     const form = useForm<UpdateTransactionSchemaType>({
         resolver: zodResolver(UpdateTransactionSchema),
@@ -59,7 +61,7 @@ function UpdateTransactionDialog({trigger, transaction}: Props) {
             description: transaction.description as unknown as string,
             amount: transaction.amount,
             category: transaction.category,
-            date: new Date()
+            date: transaction.date
         }
     })
 
@@ -71,7 +73,7 @@ function UpdateTransactionDialog({trigger, transaction}: Props) {
 
 
     const {mutate, isPending} = useMutation({
-        mutationFn: (formData: UpdateTransactionSchemaType)=> UpdateTransaction(transaction.id, transaction.amount, formData),
+        mutationFn: (formData: UpdateTransactionSchemaType) => UpdateTransaction(transaction.id, transaction.amount, formData),
         onSuccess: async () => {
             toast.success("Transazione aggiornata con successo", {id: "update-transaction"})
             // form.reset({
@@ -93,6 +95,12 @@ function UpdateTransactionDialog({trigger, transaction}: Props) {
         }
     })
 
+    useEffect(() => {
+        if(!showDeleteDialog) {
+            setOpen(false)
+        }
+    }, [showDeleteDialog]);
+
     const onSubmit = useCallback((values: UpdateTransactionSchemaType) => {
         toast.loading("Aggiornamento transazione...", {id: "update-transaction"})
         mutate({...values, date: DateToUTCDate(values.date)})
@@ -101,7 +109,7 @@ function UpdateTransactionDialog({trigger, transaction}: Props) {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>{trigger}</DialogTrigger>
-            <DialogContent onOpenAutoFocus={e=>e.preventDefault()}>
+            <DialogContent onOpenAutoFocus={e => e.preventDefault()}>
                 <DialogHeader>
                     <DialogTitle>Aggiorna <span
                         className={cn("m-1", transaction.type === "income" ? "text-emerald-500" : "text-red-500")}>{transaction.type === "income" ? "entrata" : "spesa"}</span></DialogTitle>
@@ -144,8 +152,9 @@ function UpdateTransactionDialog({trigger, transaction}: Props) {
                                     <FormItem className="flex flex-col">
                                         <FormLabel>Categoria</FormLabel>
                                         <FormControl>
-                                            <CategoryPicker defaultValue={transaction.category} onChange={handleCategoryChange}
-                                                            ></CategoryPicker>
+                                            <CategoryPicker defaultValue={transaction.category}
+                                                            onChange={handleCategoryChange}
+                                            ></CategoryPicker>
                                         </FormControl>
                                         <FormDescription>
                                             <small>Scegli o crea una categoria</small>
@@ -169,7 +178,7 @@ function UpdateTransactionDialog({trigger, transaction}: Props) {
                                                         format(field.value, "PPP", {locale: it})
                                                     ) : (
                                                         <span>Seleziona una data</span>
-                                                    )}<CalendarIcon
+                                                    )} <CalendarIcon
                                                         className="ml-auto h-4 w-4 opacity-50"></CalendarIcon> </Button>
                                                 </FormControl>
                                             </ResponsivePopoverTrigger>
@@ -194,14 +203,25 @@ function UpdateTransactionDialog({trigger, transaction}: Props) {
                 </Form>
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button className="md:me-2 me-0" variant={"secondary"} onClick={() => form.reset()}>Annulla</Button>
+                        <Button className="md:me-2 me-0" variant={"secondary"}
+                                onClick={() => form.reset()}>Annulla</Button>
                     </DialogClose>
-                    <Button className="md:mb-0 md:mt-0 mb-4 mt-4" onClick={form.handleSubmit(onSubmit)} disabled={isPending}>
-                        {!isPending && "Aggiorna"}
-                        {isPending && <Loader2 className="animate-spin"/>}
-                    </Button>
+                    <div className="flex md:mb-0 md:mt-0 mb-4 mt-4">
+                        <Button className="w-full me-2" onClick={form.handleSubmit(onSubmit)}
+                                disabled={isPending}>
+                            {!isPending && "Aggiorna"}
+                            {isPending && <Loader2 className="animate-spin"/>}
+                        </Button>
+                        <Button className="" variant={"destructive"} type={'button'} onClick={()=> setShowDeleteDialog(true)}
+                                disabled={isPending}>
+                            {!isPending && <Trash size={20}/>}
+                            {isPending && <Loader2 className="animate-spin"/>}
+                        </Button>
+                    </div>
                 </DialogFooter>
             </DialogContent>
+            <DeleteTransactionDialog open={showDeleteDialog} setOpen={setShowDeleteDialog}
+                                     transactionId={transaction.id}/>
         </Dialog>
     )
 }

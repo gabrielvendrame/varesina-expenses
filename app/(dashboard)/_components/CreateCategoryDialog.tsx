@@ -37,6 +37,9 @@ function CreateCategoryDialog({successCallback}: Props) {
     const theme = useTheme()
     const form = useForm<CreateCategorySchemaType>({
         resolver: zodResolver(CreateCategorySchema),
+        defaultValues: {
+            name: ""
+        }
     })
 
     const queryClient = useQueryClient();

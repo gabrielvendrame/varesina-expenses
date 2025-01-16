@@ -21,12 +21,12 @@ function DeleteTransactionDialog({open, setOpen, transactionId}: Props) {
 
     const queryClient = useQueryClient();
 
-    const deleteMutationn = useMutation({
+    const deleteMutation = useMutation({
         mutationFn: DeleteTransaction,
         onSuccess: async ()=>{
             toast.success("Transazione eliminata", {id: transactionId})
             await queryClient.invalidateQueries({
-                queryKey: ['transactions']
+                queryKey: ['overview']
             })
         },
         onError: ()=>{
@@ -47,7 +47,7 @@ function DeleteTransactionDialog({open, setOpen, transactionId}: Props) {
                     <AlertDialogAction
                     onClick={()=>{
                         toast.loading("Eliminazione in corso", {id: transactionId})
-                        deleteMutationn.mutate(transactionId)
+                        deleteMutation.mutate(transactionId)
                     }}>
                         Daje de cestino
                     </AlertDialogAction>

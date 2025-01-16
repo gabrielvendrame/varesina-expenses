@@ -51,7 +51,7 @@ function CategoryPicker({defaultValue, onChange}: Props) {
                     variant={"outline"}
                     role="combobox"
                     aria-expanded={open}
-                    className="w-full max-w-[200px] justify-between"
+                    className="w-full max-w-[200px] overflow-hidden justify-between"
                 >
                     {selectedCategory ? (
                         <CategoryRow category={selectedCategory}/>
@@ -59,7 +59,7 @@ function CategoryPicker({defaultValue, onChange}: Props) {
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
                 </Button>
             </ResponsivePopoverTrigger>
-            <ResponsivePopoverContent className="w-[200px] p-0">
+            <ResponsivePopoverContent className="w-[200px] overflow-ellipsis p-0">
                 <Command
                     onSubmit={(e => e.preventDefault())}>
                     <CommandInput placeholder="Cerca categoria..."></CommandInput>
@@ -99,7 +99,7 @@ export default CategoryPicker
 
 function CategoryRow({category}: { category: Category }) {
     return (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 overflow-y-auto max-w-[100px] md:max-w-fit">
             <span role="img">{category.icon}</span>
             <span>{category.name}</span>
         </div>
