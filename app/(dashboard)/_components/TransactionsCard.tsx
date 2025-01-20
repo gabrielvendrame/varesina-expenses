@@ -40,7 +40,7 @@ function TransactionsCard({from, to, userSettings}: Props) {
                     <CardHeader className="text-start w-full">
                         <CardTitle
                             className="text-muted-foreground md:text-lg text-md text-start w-full justify-start">
-                            Spese
+                            Transazioni
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="flex md:h-[400px] h-[200px]">
