@@ -1,17 +1,18 @@
 import { Currencies } from '@/lib/currencies';
 
 export function DateToUTCDate(date: Date): Date {
-    return new Date(
-        Date.UTC(
-            date.getFullYear(),
-            date.getMonth(),
-            date.getDate(),
-            date.getHours(),
-            date.getMinutes(),
-            date.getSeconds(),
-            date.getMilliseconds()
-        )
-    )
+    // return new Date(
+    //     Date.UTC(
+    //         date.getFullYear(),
+    //         date.getMonth(),
+    //         date.getDate(),
+    //         date.getHours(),
+    //         date.getMinutes(),
+    //         date.getSeconds(),
+    //         date.getMilliseconds()
+    //     )
+    // )
+    return date
 }
 
 export function GetFormatterForCurrency(currency: string): Intl.NumberFormat {

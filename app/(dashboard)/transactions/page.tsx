@@ -29,6 +29,7 @@ function TransactionsPage() {
                             if (differenceInDays(to, from) > MAX_DATE_RANGE_DAYS) {
                                 toast.error(`Il range massimo è di ${MAX_DATE_RANGE_DAYS} giorni`)
                             }
+                            setDateRange({from, to})
                         })}
                     ></DateRangePicker>
                 </div>
