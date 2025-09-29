@@ -51,6 +51,7 @@ function CreateTransactionForm() {
                 description: "",
                 amount: "" as unknown as number,
                 date: new Date(),
+                category: form.getValues("category")
             })
 
 
