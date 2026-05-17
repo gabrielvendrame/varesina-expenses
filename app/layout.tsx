@@ -29,7 +29,7 @@ export default function RootLayout({
     children: ReactNode;
 }>) {
     return (
-        <html lang="it" className="dark" style={{colorScheme: "dark"}}>
+        <html lang="it" suppressHydrationWarning>
         <ClerkProvider localization={itIT} appearance={{
             baseTheme: dark,
         }} afterSignOutUrl="/sign-in">
