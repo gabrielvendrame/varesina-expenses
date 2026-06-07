@@ -22,6 +22,7 @@ function Navbar() {
 const items = [
     {label: "Dashboard", link: "/"},
     {label: "Transazioni", link: "/transactions"},
+    {label: "Periodiche", link: "/periodic-transactions"},
     {label: "Impostazioni", link: "/manage"},
 ]
 

@@ -63,3 +63,21 @@ model YearHistory {
 
   @@id([userId, month, year])
 }
+
+model PeriodicTransaction {
+  id            String    @id @default(cuid())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  userId        String
+  amount        Float
+  description   String?
+  category      String
+  categoryIcon  String
+  type          String
+  intervalValue Int
+  intervalUnit  String
+  weekDay       Int?
+  startDate     DateTime
+  lastRunAt     DateTime?
+  nextRunAt     DateTime
+}
